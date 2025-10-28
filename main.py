@@ -1,20 +1,39 @@
 from fastapi import FastAPI
+from docs import tags_metadata
+from fooddata import FoodData
+
+# Objeto para trabajar con los datos de prueba
+food = FoodData()
 
 # Objeto app de tipo FastApi
 app = FastAPI(
     title="FoodAPI",
-    version="0.0.2"
+    description="ApiRestFul para la gestión de alimentos y planes nutricionales",
+    version="0.0.2",
+    contact={
+        "name":"Eduardo Serrano",
+        "url":"http://google.com"
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+    openapi_tags=tags_metadata
 )
 
-# Configuracion del api restful
+#Definición de los ENDPOINTS
 
-# Endpoint GET /
+#DEFAULT
 @app.get("/")
 def read_root():
-    return {"Hello": "Edu"}
+    return {"Hola": "Pakito"}
 
-# Endpoint GET /ingredientes
-@app.get("/ingredientes")
-def read_ingredientes():
-    return {"Objeto": "Ingredientes"}
+#INGREDIENTES
+@app.get("/ingredientes",tags=["ingredientes"])
+async def read_ingredients():
+    #await pedir datos
+    return await food.get_ingredientes()
 
+@app.get("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
+async def read_ingredient(ingrediente_id: int):
+    return await food.get_ingrediente(ingrediente_id)
