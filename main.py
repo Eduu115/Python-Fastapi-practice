@@ -1,8 +1,8 @@
 #importamos desde fastAPI, la clases FastAPI y Response
-from typing import Union
 from fastapi import FastAPI, Response, status
 from docs import tags_metadata
 from fooddata import FoodData
+from models import Ingrediente
 
 # Objeto para trabajar con los datos de prueba
 food = FoodData()
@@ -51,8 +51,12 @@ async def read_ingredient(ingrediente_id: int,response: Response):
         return {"error",str(ingrediente_id)+" no encontrado"}
 
 @app.post("/ingredientes",tags=["ingredientes"])
-async def write_ingredients():
-    return {"ingrediente":"POST"}
+async def write_ingredients(ingrediente: Ingrediente):
+    return await food.write_ingrediente(ingrediente)
+
+@app.put("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
+async def update_ingredients(ingrediente_id:int,ingrediente: Ingrediente):
+    return  {"info":"PUT"}
 
 #PLATOS
 @app.get("/platos",tags=["platos"])
