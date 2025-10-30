@@ -2,20 +2,11 @@
   "alimentos": [
     {
       "id": 1,
-      "nombre": "Abadejo, ahumado",
-      "calorias": 116,
-      "carbohidratos": 0,
-      "proteinas": 25.23,
+      "nombre": "Actualizacion basta",
+      "calorias": 10,
+      "carbohidratos": 2.6,
+      "proteinas": 7.0,
       "grasas": 0.96,
-      "fibra": 0
-    },
-    {
-      "id": 2,
-      "nombre": "Abul\u00c3\u00b3n, al vapor o escalfado",
-      "calorias": 209,
-      "carbohidratos": 11.97,
-      "proteinas": 34.05,
-      "grasas": 1.51,
       "fibra": 0
     },
     {

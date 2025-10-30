@@ -2,7 +2,7 @@
 from fastapi import FastAPI, Response, status
 from docs import tags_metadata
 from fooddata import FoodData
-from models import Ingrediente
+from models import Ingrediente, Plato
 
 # Objeto para trabajar con los datos de prueba
 food = FoodData()
@@ -56,7 +56,11 @@ async def write_ingredients(ingrediente: Ingrediente):
 
 @app.put("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
 async def update_ingredients(ingrediente_id:int,ingrediente: Ingrediente):
-    return  {"info":"PUT"}
+    return  await food.update_ingrediente(ingrediente_id, ingrediente)
+
+@app.delete("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
+async def delete_ingredient(ingrediente_id: int):
+    return await food.delete_ingrediente(ingrediente_id)
 
 #PLATOS
 @app.get("/platos",tags=["platos"])
@@ -88,4 +92,8 @@ async def read_platoIngrediente(plato_id: int,ingrediente_id: int,response: Resp
     #Si el ingrediente es nulo
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return {"error","plato "+str(plato_id)+","+"ingrediente "+str(ingrediente_id)+" no encontrado"}
+        return {"error  ","plato "+str(plato_id)+","+"ingrediente "+str(ingrediente_id)+" no encontrado"}
+
+@app.post("/platos",tags=["platos"])
+async def write_plato(plato: Plato):
+    return await food.write_plato(plato)
