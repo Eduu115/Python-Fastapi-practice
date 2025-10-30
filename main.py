@@ -32,7 +32,7 @@ def read_root():
 
 #INGREDIENTES
 @app.get("/ingredientes",tags=["ingredientes"])
-async def read_ingredients(total:int,skip:int=0,todos: Union[bool, None] = None):
+async def read_ingredients(total:int,skip:int=0,todos: bool|None = None):
     #await pedir datos
     if(todos):
         return await food.get_allIngredientes()
