@@ -1,5 +1,6 @@
 #importamos desde fastAPI, la clases FastAPI y Response
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, status, Body
+from typing import Annotated
 from docs import tags_metadata
 from fooddata import FoodData
 from models import Ingrediente, Plato
@@ -62,6 +63,11 @@ async def update_ingredients(ingrediente_id:int,ingrediente: Ingrediente):
 async def delete_ingredient(ingrediente_id: int):
     return await food.delete_ingrediente(ingrediente_id)
 
+@app.post("/ingredientesplatos",tags=["ingredientes"])
+async def write_ingredientsandplatos(ingrediente: Ingrediente, plato:Plato):
+    return await food.write_ingrediente(ingrediente)
+
+
 #PLATOS
 @app.get("/platos",tags=["platos"])
 async def read_platos(total:int,skip:int=0,todos: bool|None = None):
@@ -95,5 +101,5 @@ async def read_platoIngrediente(plato_id: int,ingrediente_id: int,response: Resp
         return {"error  ","plato "+str(plato_id)+","+"ingrediente "+str(ingrediente_id)+" no encontrado"}
 
 @app.post("/platos",tags=["platos"])
-async def write_plato(plato: Plato):
-    return await food.write_plato(plato)
+async def write_plato(plato: Plato, tiempodestacado:Annotated[int, Body()]):
+    return await food.write_plato(plato, tiempodestacado)
