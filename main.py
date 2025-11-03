@@ -69,7 +69,7 @@ async def write_ingredientsplatos(ingrediente:Ingrediente,plato:Plato):
 
 #PLATOS
 @app.get("/platos",tags=["platos"])
-async def read_platos(total:int,skip:int=0,todos: Union[bool, None] = None):
+async def read_platos(total:int,skip:int=0,todos: bool|None = None):
     #await pedir datos
     if(todos):
         return await food.get_allPlatos()
