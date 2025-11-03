@@ -1,0 +1,19 @@
+{
+  "destacados": [
+    {
+      "id": 1,
+      "id_plato": 1,
+      "tiempo": 26
+    },
+    {
+      "id": 2,
+      "id_plato": 8,
+      "tiempo": 7
+    },
+    {
+      "id": 3,
+      "id_plato": 13,
+      "tiempo": 7
+    }
+  ]
+}

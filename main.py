@@ -1,8 +1,9 @@
 #importamos desde fastAPI, la clases FastAPI y Response
-from typing import Union
-from fastapi import FastAPI, Response, status
+from typing import Union, Annotated
+from fastapi import FastAPI, Response, status, Body
 from docs import tags_metadata
 from fooddata import FoodData
+from models import Ingrediente, Plato
 
 # Objeto para trabajar con los datos de prueba
 food = FoodData()
@@ -13,8 +14,8 @@ app = FastAPI(
     description="ApiRestFul para la gestión de alimentos y planes nutricionales",
     version="0.0.2",
     contact={
-        "name":"Paco Gómez",
-        "url":"http://www.mastermind.ac"
+        "name":"Eduardo Serrano",
+        "url":"https://github.com/Eduu115",
     },
     license_info={
         "name": "Apache 2.0",
@@ -50,6 +51,22 @@ async def read_ingredient(ingrediente_id: int,response: Response):
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error",str(ingrediente_id)+" no encontrado"}
 
+@app.post("/ingredientes",tags=["ingredientes"])
+async def write_ingredients(ingrediente:Ingrediente):
+    return await food.write_ingrediente(ingrediente)
+
+@app.put("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
+async def update_ingredients(ingrediente_id:int,ingrediente:Ingrediente):
+    return await food.update_ingrediente(ingrediente_id,ingrediente)
+
+@app.delete("/ingredientes/{ingrediente_id}",tags=["ingredientes"])
+async def delete_ingredients(ingrediente_id:int):
+    return await food.delete_ingrediente(ingrediente_id)
+
+@app.post("/ingredientesplatos",tags=["ingredientes"])
+async def write_ingredientsplatos(ingrediente:Ingrediente,plato:Plato):
+    return await food.write_ingredientePlato(ingrediente,plato)
+
 #PLATOS
 @app.get("/platos",tags=["platos"])
 async def read_platos(total:int,skip:int=0,todos: Union[bool, None] = None):
@@ -81,3 +98,7 @@ async def read_platoIngrediente(plato_id: int,ingrediente_id: int,response: Resp
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error","plato "+str(plato_id)+","+"ingrediente "+str(ingrediente_id)+" no encontrado"}
+
+@app.post("/platos",tags=["platos"])
+async def write_platos(plato:Plato, tiempodestacado: Annotated[int, Body()]):
+    return await food.write_plato(plato,tiempodestacado)
